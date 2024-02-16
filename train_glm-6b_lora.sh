@@ -9,15 +9,12 @@ export HF_HOME=/workspace/jyh/.cache/huggingface
     --dataset_dir data \
     --dataset haruhi_zero_0,haruhi_zero_1,haruhi_zero_2,haruhi_zero_3,haruhi_zero_4,haruhi_zero_5 \
     --cutoff_len 1024 \
-    --learning_rate 5e-03 \
     --num_train_epochs 3.0 \
     --max_samples 100000 \
-    --per_device_train_batch_size 8 \
-    --gradient_accumulation_steps 4 \
     --lr_scheduler_type cosine \
     --max_grad_norm 1.0 \
-    --logging_steps 5 \
-    --save_steps 100 \
+    --logging_steps 10 \
+    --save_steps 500 \
     --warmup_steps 0 \
     --lora_rank 8 \
     --lora_dropout 0.1 \

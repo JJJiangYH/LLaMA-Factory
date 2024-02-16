@@ -12,11 +12,9 @@ export HF_HOME=/workspace/jyh/.cache/huggingface
     --num_train_epochs 3.0 \
     --max_samples 100000 \
     --lr_scheduler_type cosine \
-    --per_device_train_batch_size 2 \
-    --gradient_accumulation_steps 16 \
     --max_grad_norm 1.0 \
     --logging_steps 10 \
-    --save_steps 10000 \
+    --save_steps 1000 \
     --warmup_steps 0 \
     --lora_rank 8 \
     --lora_dropout 0.1 \
