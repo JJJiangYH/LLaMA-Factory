@@ -3,7 +3,7 @@ export HF_HOME=/workspace/jyh/.cache/huggingface
     --deepspeed ds_config.json \
     --stage sft \
     --do_train True \
-    --model_name_or_path /workspace/jyh/LLaMA-Factory/chatglm3-6b \
+    --model_name_or_path THUDM/chatglm3-6b \
     --finetuning_type lora \
     --template chatglm3 \
     --dataset_dir data \
@@ -19,6 +19,6 @@ export HF_HOME=/workspace/jyh/.cache/huggingface
     --lora_rank 8 \
     --lora_dropout 0.1 \
     --lora_target query_key_value \
-    --output_dir saves/ChatGLM3-6B-Chat/lora/train_2024-02-16-16-53 \
-    --fp16 True \
+    --output_dir saves/ChatGLM3-6B-Chat/lora/train_2024-02-17-18-22 \
+    --bf16 True \
     --plot_loss True

@@ -3,7 +3,7 @@ export HF_HOME=/workspace/jyh/.cache/huggingface
     --deepspeed ds_config.json \
     --stage sft \
     --do_train True \
-    --model_name_or_path /workspace/jyh/LLaMA-Factory/chatglm3-6b \
+    --model_name_or_path /THUDM/chatglm3-6b \
     --finetuning_type full \
     --template chatglm3 \
     --dataset_dir data \
