@@ -125,27 +125,38 @@ class Runner:
             save_steps=get("train.save_steps"),
             warmup_steps=get("train.warmup_steps"),
             neftune_noise_alpha=get("train.neftune_alpha") or None,
+            resize_vocab=get("train.resize_vocab"),
             sft_packing=get("train.sft_packing"),
             upcast_layernorm=get("train.upcast_layernorm"),
-            lora_rank=get("train.lora_rank"),
-            lora_dropout=get("train.lora_dropout"),
-            lora_target=get("train.lora_target") or get_module(get("top.model_name")),
-            additional_target=get("train.additional_target") or None,
-            create_new_adapter=get("train.create_new_adapter"),
+            use_llama_pro=get("train.use_llama_pro"),
             output_dir=get_save_dir(get("top.model_name"), get("top.finetuning_type"), get("train.output_dir")),
             fp16=(get("train.compute_type") == "fp16"),
             bf16=(get("train.compute_type") == "bf16"),
         )
         args["disable_tqdm"] = True
 
-        if TRAINING_STAGES[get("train.training_stage")] in ["rm", "ppo", "dpo"]:
-            args["create_new_adapter"] = args["quantization_bit"] is None
+        if args["finetuning_type"] == "freeze":
+            args["num_layer_trainable"] = int(get("train.num_layer_trainable"))
+            args["name_module_trainable"] = get("train.name_module_trainable")
+        elif args["finetuning_type"] == "lora":
+            args["lora_rank"] = get("train.lora_rank")
+            args["lora_dropout"] = get("train.lora_dropout")
+            args["lora_target"] = get("train.lora_target") or get_module(get("top.model_name"))
+            args["additional_target"] = get("train.additional_target") or None
+            args["use_rslora"] = get("train.use_rslora")
+            if args["stage"] in ["rm", "ppo", "dpo"]:
+                args["create_new_adapter"] = args["quantization_bit"] is None
+            else:
+                args["create_new_adapter"] = get("train.create_new_adapter")
+
+            if args["use_llama_pro"]:
+                args["num_layer_trainable"] = int(get("train.num_layer_trainable"))
 
         if args["stage"] == "ppo":
             args["reward_model"] = get_save_dir(
                 get("top.model_name"), get("top.finetuning_type"), get("train.reward_model")
             )
-            args["reward_model_type"] = "lora" if get("top.finetuning_type") == "lora" else "full"
+            args["reward_model_type"] = "lora" if args["finetuning_type"] == "lora" else "full"
 
         if args["stage"] == "dpo":
             args["dpo_beta"] = get("train.dpo_beta")
@@ -155,7 +166,7 @@ class Runner:
             args["val_size"] = get("train.val_size")
             args["evaluation_strategy"] = "steps"
             args["eval_steps"] = get("train.save_steps")
-            args["load_best_model_at_end"] = True
+            args["load_best_model_at_end"] = args["stage"] not in ["rm", "ppo"]
 
         return args
 
