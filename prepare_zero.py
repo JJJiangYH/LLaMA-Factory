@@ -9,7 +9,7 @@ def main():
 
     # 定义要添加的文件名
     file_names = ["Chinese_erotic.jsonl", "Chinese_NovelWriting.jsonl", "merge_cut3k_121k_no_source.jsonl","Identity_data_for_0.3.jsonl",\
-                  "novel_50_to_conversation_part0.jsonl","novel_50_to_conversation_part1.jsonl"]
+                  "novel_50_to_profile_and_convs_part0.jsonl","novel_50_to_profile_and_convs_part1.jsonl","translated_and_split_PIPPA.jsonl"]
 
     # 添加新信息
     for i, file_name in enumerate(file_names):
